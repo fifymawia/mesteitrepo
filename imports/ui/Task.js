@@ -5,12 +5,17 @@ import { Eits } from '../api/eits.js';
 export default class Eit extends Component {
  toggleChecked(){
     // Set the checked property to the opposite of its current value
-   Eits.update(this.props.eit._id,{
-     $set: { checked: !this.props.eit.checked },
-   }); 
- }
+  // Eits.update(this.props.eit._id,
+  
+  Meteor.call('eits.setChecked', this.props.eit._id, !this.props.eit.checked);
+  }
+  
+    // $set: { checked: !this.props.eit.checked },
+  // }); 
+ 
  deleteThisEit(){
-   Eits.remove(this.props.eit._id);
+  Meteor.call('eits.remove', this.props.eit._id);
+   //Eits.remove(this.props.eit._id);
  }
  
   render() {
@@ -30,6 +35,7 @@ export default class Eit extends Component {
           checked={!!this.props.eit.checked}
           onClick={this.toggleChecked.bind(this)}
         /></td>
+
 
 <td> <span className="firstName">{this.props.eit.firstName}</span> </td>
 <td> <span className="surname"  >{this.props.eit.surname}</span></td>

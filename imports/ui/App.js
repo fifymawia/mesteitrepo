@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {withTracker} from 'meteor/react-meteor-data';
 import {Eits} from '../api/eits.js'; 
 import Eit from './Task.js';
-
+import AccountsUIWrapper from './AccountsUIWrapper.js';
 // App component - represents the whole app
  class App extends Component {
 
@@ -32,7 +32,7 @@ import Eit from './Task.js';
 
     const { firstName, surname, country, age } = this.state;
    
-   
+    Meteor.call('eits.insert', firstName);
  
     if(this.state.isEditting) {
       Eits.update(this.state.eitToEdit._id, {
@@ -59,7 +59,11 @@ import Eit from './Task.js';
         country,
         age,
         createdAt: new Date(), // current time
+        owner: Meteor.userId(), //id of logged in user
+        username: Meteor.user().username, //username of logged in user
       });
+      //clear form
+
       this.setState({
         eitToEdit: {},
         firstName: '',
@@ -104,12 +108,14 @@ import Eit from './Task.js';
       
         <header>
           <h1>Mest EITs Managment System</h1>
+          <AccountsUIWrapper/>
           </header>
-          <br></br>
+          <br></br><br></br>
 
+        
+         { this.props.currentUser ?
+      
          
-          
-         <br></br>
           <form  onSubmit={this.handleSubmit.bind(this)} >
           <label for="firstname">First Name :</label>{' '}
           <input
@@ -149,8 +155,8 @@ import Eit from './Task.js';
            />{' '}
            <button type="submit">{this.state.isEditting ? 'Edit EIT' : 'Add EIT'}</button>
           
-            </form>
-       
+            </form> : ''
+         }
 <br></br>
          <br></br>
                
@@ -180,5 +186,6 @@ import Eit from './Task.js';
 export default withTracker(() => {
   return {
     eits: Eits.find({}, { sort: { createdAt: -1 } }).fetch(),
+    currentUser: Meteor.user(),
   };
 })(App);
