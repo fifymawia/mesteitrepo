@@ -31,18 +31,17 @@ import AccountsUIWrapper from './AccountsUIWrapper.js';
     // const age = ReactDOM.findDOMNode(this.refs.age).value.trim();
 
     const { firstName, surname, country, age } = this.state;
-   
-    Meteor.call('eits.insert', firstName,surname,country,age);
  
     if(this.state.isEditting) {
-      Eits.update(this.state.eitToEdit._id, {
-        $set: {
-          firstName: firstName,
-          surname: surname,
-          country: country,
-          age: age
-        }
-      });
+      // Eits.update(this.state.eitToEdit._id, {
+      //   $set: {
+      //     firstName: firstName,
+      //     surname: surname,
+      //     country: country,
+      //     age: age
+      //   }
+      // });
+      Meteor.call('eits.update', this.state.eitToEdit._id, firstName,surname,country,age);
 
       this.setState({
         eitToEdit: {},
@@ -53,15 +52,17 @@ import AccountsUIWrapper from './AccountsUIWrapper.js';
         isEditting: false
       });
     } else {
-      Eits.insert({
-        firstName,
-        surname,
-        country,
-        age,
-        createdAt: new Date(), // current time
-        owner: Meteor.userId(), //id of logged in user
-        username: Meteor.user().username, //username of logged in user
-      });
+      Meteor.call('eits.insert', firstName,surname,country,age);
+      
+      // Eits.insert({
+      //   firstName,
+      //   surname,
+      //   country,
+      //   age,
+      //   createdAt: new Date(), // current time
+      //   owner: Meteor.userId(), //id of logged in user
+      //   username: Meteor.user().username, //username of logged in user
+      // });
       //clear form
 
       this.setState({
@@ -104,7 +105,7 @@ import AccountsUIWrapper from './AccountsUIWrapper.js';
   render() {
     //const eitClassName = this.props.eit.checked ? 'checked' : '';
     return (
-        <div class="row">
+        <div className="row">
       
         <header>
           <h1>Mest EITs Managment System</h1>
@@ -117,7 +118,7 @@ import AccountsUIWrapper from './AccountsUIWrapper.js';
       
          
           <form  onSubmit={this.handleSubmit.bind(this)} >
-          <label for="firstname">First Name :</label>{' '}
+          <label htmlFor="firstname">First Name :</label>{' '}
           <input
               type="text"
               ref="firstName"
@@ -126,7 +127,7 @@ import AccountsUIWrapper from './AccountsUIWrapper.js';
               required
               onChange={e => this.setState({ firstName: e.target.value })}
            />{' '}
-            <label for="surname">Surname :</label>{' '}
+            <label htmlFor="surname">Surname :</label>{' '}
            <input
               type="text"
               ref="surname"
@@ -135,7 +136,7 @@ import AccountsUIWrapper from './AccountsUIWrapper.js';
               required
               onChange={e => this.setState({ surname: e.target.value })}
            />{' '}
-            <label for="Country">Country :</label>{' '}
+            <label htmlFor="Country">Country :</label>{' '}
            <input
               type="text"
               ref="country"
@@ -144,7 +145,7 @@ import AccountsUIWrapper from './AccountsUIWrapper.js';
               required
               onChange={e => this.setState({ country: e.target.value })}
            />{' '}
-            <label for="Age">Eit's Age :</label>{' '}
+            <label htmlFor="Age">Eit's Age :</label>{' '}
            <input
               type="text"
               ref="age"
@@ -161,18 +162,18 @@ import AccountsUIWrapper from './AccountsUIWrapper.js';
          <br></br>
                
                <ul>
-         <table cellSpacing={"0"}>{this.renderEits()
-          }</table> 
+         <table cellSpacing={"0"}>
+           <tbody>
+           {this.renderEits()}
+           </tbody>
+        </table> 
         </ul>
               
             
  
       <br></br><br></br>
         <button onClick={e => {
-          const eits = Eits.find({ checked: true });
-          eits.forEach(eit => {
-            Eits.remove(eit._id);
-          })
+          Meteor.call('eits.remove_bulk');
         }}>Delete Selected Eits</button>
       </div>
       

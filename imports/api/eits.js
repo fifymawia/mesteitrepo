@@ -26,10 +26,36 @@ Meteor.methods({
         username: Meteor.users.findOne(this.userId).username,
       });
     },
+    'eits.update'(id, firstName,surname,country,age) {
+        check(firstName, String);
+        check(surname, String);
+        check(country, String);
+        check(age, String);
+     
+        // Make sure the user is logged in before inserting a task
+        if (! this.userId) {
+          throw new Meteor.Error('not-authorized');
+        }
+     
+        Eits.update(id, {
+        $set: {
+          firstName: firstName,
+          surname: surname,
+          country: country,
+          age: age
+        }
+      });
+    },
     'eits.remove'(eitId) {
       check(eitId, String);
    
-      Eits.remove(eidId);
+      Eits.remove(eitId);
+    },
+    'eits.remove_bulk'() {
+        const eits = Eits.find({ checked: true });
+        eits.forEach(eit => {
+            Eits.remove(eit._id);
+        });
     },
     'eits.setChecked'(eitId, setChecked) {
       check(eitId, String);

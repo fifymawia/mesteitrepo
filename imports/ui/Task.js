@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Eits } from '../api/eits.js'; 
+import { Meteor } from 'meteor/meteor'; 
 
 // Task component - represents a single todo item
 export default class Eit extends Component {
@@ -14,7 +14,7 @@ export default class Eit extends Component {
   // }); 
  
  deleteThisEit(){
-  Meteor.call('eits.remove', this.props.eit._id);
+ Meteor.call('eits.remove', this.props.eit._id);
    //Eits.remove(this.props.eit._id);
  }
  
