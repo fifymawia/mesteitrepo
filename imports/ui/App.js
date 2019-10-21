@@ -32,7 +32,7 @@ import AccountsUIWrapper from './AccountsUIWrapper.js';
 
     const { firstName, surname, country, age } = this.state;
    
-    Meteor.call('eits.insert', firstName);
+    Meteor.call('eits.insert', firstName,surname,country,age);
  
     if(this.state.isEditting) {
       Eits.update(this.state.eitToEdit._id, {
