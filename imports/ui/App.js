@@ -3,7 +3,10 @@ import ReactDOM from 'react-dom';
 import {withTracker} from 'meteor/react-meteor-data';
 import {Eits} from '../api/eits.js'; 
 import Eit from './Task.js';
+
 import AccountsUIWrapper from './AccountsUIWrapper.js';
+import { Link
+} from "react-router-dom";
 // App component - represents the whole app
  class App extends Component {
 
@@ -106,80 +109,82 @@ import AccountsUIWrapper from './AccountsUIWrapper.js';
     //const eitClassName = this.props.eit.checked ? 'checked' : '';
     return (
         <div className="row">
-      
+
         <header>
           <h1>Mest EITs Managment System</h1>
-          <AccountsUIWrapper/>
-          </header>
-          <br></br><br></br>
+          <AccountsUIWrapper />
+          <Link to="/about" >About</Link>
 
-        
-         { this.props.currentUser ?
-      
-         
-          <form  onSubmit={this.handleSubmit.bind(this)} >
-          <label htmlFor="firstname">First Name :</label>{' '}
-          <input
+        </header>
+        <br></br><br></br>
+
+
+       
+        {this.props.currentUser ?
+
+
+          <form onSubmit={this.handleSubmit.bind(this)} >
+            <label htmlFor="firstname">First Name :</label>{' '}
+            <input
               type="text"
               ref="firstName"
               placeholder="Eits First Name"
               value={this.state.firstName}
               required
               onChange={e => this.setState({ firstName: e.target.value })}
-           />{' '}
+            />{' '}
             <label htmlFor="surname">Surname :</label>{' '}
-           <input
+            <input
               type="text"
               ref="surname"
               placeholder="Eits Surname"
               value={this.state.surname}
               required
               onChange={e => this.setState({ surname: e.target.value })}
-           />{' '}
+            />{' '}
             <label htmlFor="Country">Country :</label>{' '}
-           <input
+            <input
               type="text"
               ref="country"
               placeholder="Country"
               value={this.state.country}
               required
               onChange={e => this.setState({ country: e.target.value })}
-           />{' '}
+            />{' '}
             <label htmlFor="Age">Eit's Age :</label>{' '}
-           <input
+            <input
               type="text"
               ref="age"
               placeholder="Eits Age"
               value={this.state.age}
               required
               onChange={e => this.setState({ age: e.target.value })}
-           />{' '}
-           <button type="submit">{this.state.isEditting ? 'Edit EIT' : 'Add EIT'}</button>
-          
-            </form> : ''
-         }
-<br></br>
-         <br></br>
-               
-               <ul>
-         <table cellSpacing={"0"}>
-           <tbody>
-           {this.renderEits()}
-           </tbody>
-        </table> 
+            />{' '}
+            <button type="submit">{this.state.isEditting ? 'Edit EIT' : 'Add EIT'}</button>
+
+          </form> : ''
+        }
+        <br></br>
+        <br></br>
+
+        <ul>
+          <table cellSpacing={"0"}>
+            <tbody>
+              {this.renderEits()}
+            </tbody>
+          </table>
         </ul>
-              
-            
- 
-      <br></br><br></br>
+
+
+
+        <br></br><br></br>
         <button onClick={e => {
           Meteor.call('eits.remove_bulk');
         }}>Delete Selected Eits</button>
       </div>
-      
     );
     
-  }
+     }
   
      
 }

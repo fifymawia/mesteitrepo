@@ -39,9 +39,9 @@ Meteor.methods({
 
         const eit = Eits.findOne({ _id: id });
 
-        if (Meteor.user().username !== eit.username) {
+        if (this.userId !== eit.username) {
             throw new Meteor.Error('not-authorized');
-          }
+        }
      
         Eits.update(id, {
         $set: {
