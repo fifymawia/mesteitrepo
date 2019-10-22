@@ -112,8 +112,8 @@ import { Link
 
         <header>
           <h1>Mest EITs Managment System</h1>
-          <AccountsUIWrapper />
-          <Link to="/about" >About</Link>
+          <AccountsUIWrapper /> { ' '}
+          <Link to="/about" className=" edit">About </Link>
 
         </header>
         <br></br><br></br>
