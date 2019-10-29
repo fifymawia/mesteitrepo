@@ -1,4 +1,5 @@
 import assert from "assert";
+import "../imports/api/eits.tests.js";
 
 describe("eitsystem", function () {
   it("package.json has correct name", async function () {

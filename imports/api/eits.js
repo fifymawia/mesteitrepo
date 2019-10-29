@@ -33,13 +33,13 @@ Meteor.methods({
         check(age, String);
      
         // Make sure the user is logged in before inserting a task
-        if (! this.userId) {
+        if (! this.userId ) {
           throw new Meteor.Error('not-authorized');
         }
 
         const eit = Eits.findOne({ _id: id });
 
-        if (this.userId !== eit.username) {
+        if (this.userId !== eit.owner) {
             throw new Meteor.Error('not-authorized');
         }
      
@@ -57,7 +57,7 @@ Meteor.methods({
 
       const eit = Eits.findOne({ _id: eitId });
 
-      if (Meteor.user().username !== eit.username) {
+      if (this.userId !== eit.owner) {
         throw new Meteor.Error('not-authorized');
       }
    
@@ -80,7 +80,7 @@ Meteor.methods({
       const eit = Eits.findOne(eitId);
       //console.log(eit);
 
-      if (Meteor.user().username !== eit.username) {
+      if (this.userId !== eit.owner) {
         throw new Meteor.Error('not-authorized');
       }
    
